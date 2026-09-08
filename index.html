@@ -1,0 +1,3512 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucky Wheel Admin System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* LOGIN */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: radial-gradient(circle, #1e3a5f, #0f172a);
+}
+
+.login-card {
+    width: 430px;
+    max-width: 100%;
+    padding: 35px;
+    background: #111827;
+    border: 1px solid #334155;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+.logo {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.logo span,
+.header-logo span {
+    color: #fbbf24;
+}
+
+.login-description {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 25px;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #1e293b;
+    color: #94a3b8;
+}
+
+.tab.active {
+    background: #fbbf24;
+    color: #111827;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 7px 0 12px;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    background: #0b1220;
+    color: white;
+    outline: none;
+}
+
+input:focus {
+    border-color: #fbbf24;
+}
+
+.main-button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #fbbf24;
+    color: #111827;
+    font-weight: bold;
+}
+
+.main-button:hover {
+    opacity: .85;
+}
+
+.main-button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.login-footer {
+    text-align: center;
+    color: #94a3b8;
+    margin-top: 18px;
+}
+
+.link-button {
+    border: none;
+    background: none;
+    color: #fbbf24;
+    font-weight: bold;
+}
+
+/* HEADER */
+
+.header {
+    height: 70px;
+    padding: 0 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111827;
+    border-bottom: 1px solid #334155;
+}
+
+.header-logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logout {
+    padding: 9px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #991b1b;
+    color: white;
+}
+
+/* LAYOUT */
+
+.layout {
+    min-height: calc(100vh - 70px);
+    display: grid;
+    grid-template-columns: 230px 1fr;
+}
+
+.sidebar {
+    padding: 20px;
+    background: #111827;
+    border-right: 1px solid #334155;
+}
+
+.nav {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 8px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #94a3b8;
+    text-align: left;
+}
+
+.nav:hover {
+    background: #1e293b;
+    color: white;
+}
+
+.nav.active {
+    background: #334155;
+    color: #fbbf24;
+}
+
+.main {
+    width: 100%;
+    max-width: 1400px;
+    padding: 25px;
+}
+
+/* CARDS */
+
+.card {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #111827;
+    border: 1px solid #334155;
+    border-radius: 15px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    padding: 20px;
+    background: #172033;
+    border: 1px solid #334155;
+    border-radius: 12px;
+}
+
+.stat small {
+    color: #94a3b8;
+}
+
+.stat h2 {
+    margin-top: 10px;
+    color: #fbbf24;
+}
+
+/* FORMS */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    color: #cbd5e1;
+}
+
+/* TICKETS */
+
+.ticket-selector {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.ticket-select {
+    padding: 15px 5px;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    background: #172033;
+    color: white;
+}
+
+.ticket-select.selected {
+    background: #fbbf24;
+    color: #111827;
+}
+
+.ticket-select.sold {
+    background: #7f1d1d;
+    color: #fecaca;
+    cursor: not-allowed;
+}
+
+.ticket-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+}
+
+.ticket {
+    padding: 18px;
+    border-radius: 10px;
+    background: #172033;
+    border: 1px solid #475569;
+}
+
+.ticket.sold {
+    background: #3f1515;
+    border-color: #991b1b;
+}
+
+.ticket-number {
+    font-size: 25px;
+    font-weight: bold;
+    color: #fbbf24;
+    margin-bottom: 10px;
+}
+
+.available {
+    color: #4ade80;
+}
+
+.sold-text {
+    color: #f87171;
+}
+
+/* WHEEL */
+
+.wheel-layout {
+    display: grid;
+    grid-template-columns: minmax(300px, 430px) 1fr;
+    gap: 30px;
+    align-items: center;
+}
+
+.wheel-container {
+    position: relative;
+    width: 350px;
+    max-width: 85vw;
+    aspect-ratio: 1;
+    margin: auto;
+}
+
+.wheel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border: 7px solid #fbbf24;
+    border-radius: 50%;
+    background: #334155;
+    box-shadow: 0 0 40px rgba(0,0,0,.5);
+}
+
+.segment {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.segment span {
+    transform: rotate(30deg);
+}
+
+.pointer {
+    position: absolute;
+    z-index: 20;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 17px solid transparent;
+    border-right: 17px solid transparent;
+    border-top: 38px solid red;
+}
+
+.center {
+    position: absolute;
+    z-index: 30;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #111827;
+    border: 4px solid #fbbf24;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.timer {
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+    color: #fbbf24;
+    margin-bottom: 15px;
+}
+
+.status {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 15px;
+}
+
+/* WINNERS */
+
+.winners {
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    background: #14532d;
+    border: 1px solid #4ade80;
+}
+
+.winners h2 {
+    color: #4ade80;
+    margin-bottom: 12px;
+}
+
+.winner {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+/* TABLE */
+
+.table-box {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 13px;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+}
+
+th {
+    color: #94a3b8;
+}
+
+.small-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 7px;
+    background: #334155;
+    color: white;
+}
+
+.gold-button {
+    background: #fbbf24;
+    color: #111827;
+}
+
+.red-button {
+    background: #991b1b;
+    color: white;
+}
+
+.green-button {
+    background: #166534;
+    color: white;
+}
+
+/* HISTORY */
+
+.history {
+    padding: 18px;
+    margin-bottom: 12px;
+    background: #172033;
+    border: 1px solid #334155;
+    border-radius: 10px;
+}
+
+.history h3 {
+    color: #fbbf24;
+    margin-bottom: 8px;
+}
+
+.muted {
+    color: #94a3b8;
+}
+
+.gold {
+    color: #fbbf24;
+}
+
+/* MOBILE */
+
+@media(max-width:1000px) {
+
+    .stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .ticket-grid,
+    .ticket-selector {
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .wheel-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:700px) {
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px;
+    }
+
+    .nav {
+        min-width: 130px;
+        margin-right: 5px;
+    }
+
+    .main {
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-grid,
+    .ticket-selector {
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .wheel-container {
+        width: 320px;
+    }
+
+    .timer {
+        font-size: 40px;
+    }
+}
+
+@media(max-width:450px) {
+
+    .wheel-container {
+        width: 280px;
+    }
+
+    .ticket-grid,
+    .ticket-selector {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<section id="loginPage" class="login-page">
+
+<div class="login-card">
+
+    <div class="logo">
+        LUCKY<span>WHEEL</span>
+    </div>
+
+    <p class="login-description">
+        12 Number Lucky Wheel
+    </p>
+
+    <div class="tabs">
+
+        <button
+            id="userTab"
+            class="tab active"
+            onclick="loginType('user')">
+            User
+        </button>
+
+        <button
+            id="adminTab"
+            class="tab"
+            onclick="loginType('admin')">
+            Admin
+        </button>
+
+    </div>
+
+
+    <!-- USER LOGIN -->
+
+    <div id="userLogin">
+
+        <input
+            id="loginPhone"
+            placeholder="Phone Number"
+        >
+
+        <input
+            id="loginPassword"
+            type="password"
+            placeholder="Password"
+        >
+
+        <button
+            class="main-button"
+            onclick="loginUser()">
+            Login
+        </button>
+
+        <div class="login-footer">
+
+            Don't have an account?
+
+            <button
+                class="link-button"
+                onclick="showRegister()">
+                Register
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADMIN LOGIN -->
+
+    <div id="adminLogin" class="hidden">
+
+        <input
+            id="adminPhone"
+            placeholder="Admin Phone"
+        >
+
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Admin Password"
+        >
+
+        <button
+            class="main-button"
+            onclick="loginAdmin()">
+            Admin Login
+        </button>
+
+    </div>
+
+
+    <!-- REGISTER -->
+
+    <div id="register" class="hidden">
+
+        <h2 style="margin-bottom:20px">
+            Create User Account
+        </h2>
+
+        <input
+            id="regName"
+            placeholder="Full Name"
+        >
+
+        <input
+            id="regPhone"
+            placeholder="Phone Number"
+        >
+
+        <input
+            id="regPassword"
+            type="password"
+            placeholder="Password"
+        >
+
+        <button
+            class="main-button"
+            onclick="register()">
+            Register
+        </button>
+
+        <div class="login-footer">
+
+            Already registered?
+
+            <button
+                class="link-button"
+                onclick="showLogin()">
+                Login
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<section id="app" class="hidden">
+
+<header class="header">
+
+    <div class="header-logo">
+        LUCKY<span>WHEEL</span>
+    </div>
+
+    <div class="header-user">
+
+        <span id="headerName"></span>
+
+        <button
+            class="logout"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="layout">
+
+<aside class="sidebar">
+
+    <button
+        class="nav active"
+        data-page="dashboard"
+        onclick="openPage('dashboard')">
+        🏠 Dashboard
+    </button>
+
+    <button
+        class="nav"
+        data-page="wheel"
+        onclick="openPage('wheel')">
+        🎡 Wheel
+    </button>
+
+    <button
+        id="usersNav"
+        class="nav"
+        data-page="users"
+        onclick="openPage('users')">
+        👥 Users
+    </button>
+
+    <button
+        id="ticketsNav"
+        class="nav"
+        data-page="tickets"
+        onclick="openPage('tickets')">
+        🎟️ Assign Tickets
+    </button>
+
+    <button
+        class="nav"
+        data-page="history"
+        onclick="openPage('history')">
+        📜 History
+    </button>
+
+    <button
+        id="settingsNav"
+        class="nav"
+        data-page="settings"
+        onclick="openPage('settings')">
+        ⚙️ Settings
+    </button>
+
+</aside>
+
+
+<main id="main" class="main"></main>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* =====================================================
+   DATABASE - LOCAL STORAGE
+===================================================== */
+
+const USER_KEY =
+    "lucky_wheel_users";
+
+const TICKET_KEY =
+    "lucky_wheel_tickets";
+
+const ROUND_KEY =
+    "lucky_wheel_rounds";
+
+const SETTINGS_KEY =
+    "lucky_wheel_settings";
+
+const CURRENT_KEY =
+    "lucky_wheel_current";
+
+
+/* =====================================================
+   ADMIN LOGIN INFORMATION
+===================================================== */
+
+const ADMIN_PHONE =
+    "0928151586";
+
+const ADMIN_PASSWORD =
+    "2815teshe@";
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+let settings =
+    JSON.parse(
+        localStorage.getItem(
+            SETTINGS_KEY
+        )
+    ) || {
+
+        duration: 60,
+
+        winners: 1,
+
+        prize: 1000,
+
+        ticketPrice: 100
+
+    };
+
+
+/* =====================================================
+   USERS
+===================================================== */
+
+let users =
+    JSON.parse(
+        localStorage.getItem(
+            USER_KEY
+        )
+    ) || [];
+
+
+/* =====================================================
+   TICKETS
+===================================================== */
+
+let tickets =
+    JSON.parse(
+        localStorage.getItem(
+            TICKET_KEY
+        )
+    ) || [];
+
+
+/* =====================================================
+   ROUND HISTORY
+===================================================== */
+
+let rounds =
+    JSON.parse(
+        localStorage.getItem(
+            ROUND_KEY
+        )
+    ) || [];
+
+
+/* =====================================================
+   CURRENT USER
+===================================================== */
+
+let currentUser =
+    JSON.parse(
+        localStorage.getItem(
+            CURRENT_KEY
+        )
+    ) || null;
+
+
+let selectedTickets = [];
+
+let spinning = false;
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+function initialize() {
+
+    if(tickets.length !== 12) {
+
+        tickets = [];
+
+        for(
+            let i = 1;
+            i <= 12;
+            i++
+        ) {
+
+            tickets.push({
+
+                number: i,
+
+                userId: null,
+
+                userName: null,
+
+                phone: null,
+
+                soldDate: null
+
+            });
+
+        }
+
+        saveTickets();
+
+    }
+
+}
+
+initialize();
+
+
+/* =====================================================
+   SAVE FUNCTIONS
+===================================================== */
+
+function saveUsers() {
+
+    localStorage.setItem(
+        USER_KEY,
+        JSON.stringify(users)
+    );
+
+}
+
+
+function saveTickets() {
+
+    localStorage.setItem(
+        TICKET_KEY,
+        JSON.stringify(tickets)
+    );
+
+}
+
+
+function saveRounds() {
+
+    localStorage.setItem(
+        ROUND_KEY,
+        JSON.stringify(rounds)
+    );
+
+}
+
+
+function saveSettings() {
+
+    localStorage.setItem(
+        SETTINGS_KEY,
+        JSON.stringify(settings)
+    );
+
+}
+
+
+/* =====================================================
+   LOGIN TYPE
+===================================================== */
+
+function loginType(type) {
+
+    document
+        .getElementById("userLogin")
+        .classList.toggle(
+            "hidden",
+            type !== "user"
+        );
+
+    document
+        .getElementById("adminLogin")
+        .classList.toggle(
+            "hidden",
+            type !== "admin"
+        );
+
+    document
+        .getElementById("register")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("userTab")
+        .classList.toggle(
+            "active",
+            type === "user"
+        );
+
+    document
+        .getElementById("adminTab")
+        .classList.toggle(
+            "active",
+            type === "admin"
+        );
+
+}
+
+
+/* =====================================================
+   REGISTER SCREEN
+===================================================== */
+
+function showRegister() {
+
+    document
+        .getElementById("userLogin")
+        .classList.add("hidden");
+
+    document
+        .getElementById("adminLogin")
+        .classList.add("hidden");
+
+    document
+        .getElementById("register")
+        .classList.remove("hidden");
+
+}
+
+
+function showLogin() {
+
+    document
+        .getElementById("userLogin")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("adminLogin")
+        .classList.add("hidden");
+
+    document
+        .getElementById("register")
+        .classList.add("hidden");
+
+}
+
+
+/* =====================================================
+   USER REGISTER
+===================================================== */
+
+function register() {
+
+    const name =
+        document
+            .getElementById("regName")
+            .value
+            .trim();
+
+    const phone =
+        document
+            .getElementById("regPhone")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("regPassword")
+            .value;
+
+
+    if(!name || !phone || !password) {
+
+        alert(
+            "Please fill all fields."
+        );
+
+        return;
+    }
+
+
+    if(
+        users.some(
+            u =>
+                u.phone === phone
+        )
+    ) {
+
+        alert(
+            "This phone number is already registered."
+        );
+
+        return;
+    }
+
+
+    const newUser = {
+
+        id: Date.now(),
+
+        name: name,
+
+        phone: phone,
+
+        password: password,
+
+        balance: 0,
+
+        role: "user"
+
+    };
+
+
+    users.push(newUser);
+
+    saveUsers();
+
+
+    alert(
+        "Account created successfully."
+    );
+
+
+    showLogin();
+
+}
+
+
+/* =====================================================
+   USER LOGIN
+===================================================== */
+
+function loginUser() {
+
+    const phone =
+        document
+            .getElementById("loginPhone")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+
+    const user =
+        users.find(
+            u =>
+                u.role === "user" &&
+                u.phone === phone &&
+                u.password === password
+        );
+
+
+    if(!user) {
+
+        alert(
+            "Invalid phone number or password."
+        );
+
+        return;
+    }
+
+
+    currentUser = user;
+
+    localStorage.setItem(
+        CURRENT_KEY,
+        JSON.stringify(
+            currentUser
+        )
+    );
+
+
+    showApp();
+
+}
+
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
+function loginAdmin() {
+
+    const phone =
+        document
+            .getElementById("adminPhone")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("adminPassword")
+            .value;
+
+
+    /*
+       Admin credentials are checked directly.
+    */
+
+    if(
+        phone !== ADMIN_PHONE ||
+        password !== ADMIN_PASSWORD
+    ) {
+
+        alert(
+            "Invalid admin phone or password."
+        );
+
+        return;
+    }
+
+
+    /*
+       Create admin session.
+    */
+
+    currentUser = {
+
+        id: "ADMIN",
+
+        name: "Administrator",
+
+        phone: ADMIN_PHONE,
+
+        role: "admin",
+
+        balance: 0
+
+    };
+
+
+    localStorage.setItem(
+        CURRENT_KEY,
+        JSON.stringify(
+            currentUser
+        )
+    );
+
+
+    showApp();
+
+}
+
+
+/* =====================================================
+   SHOW APPLICATION
+===================================================== */
+
+function showApp() {
+
+    document
+        .getElementById("loginPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("headerName")
+        .textContent =
+        currentUser.role === "admin"
+        ? "Admin"
+        : currentUser.name;
+
+
+    const admin =
+        currentUser.role === "admin";
+
+
+    document
+        .getElementById("usersNav")
+        .classList.toggle(
+            "hidden",
+            !admin
+        );
+
+    document
+        .getElementById("ticketsNav")
+        .classList.toggle(
+            "hidden",
+            !admin
+        );
+
+    document
+        .getElementById("settingsNav")
+        .classList.toggle(
+            "hidden",
+            !admin
+        );
+
+
+    openPage("dashboard");
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function openPage(page) {
+
+    document
+        .querySelectorAll(".nav")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.page === page
+            );
+
+        });
+
+
+    if(page === "dashboard")
+        dashboard();
+
+    if(page === "wheel")
+        wheelPage();
+
+    if(page === "users")
+        usersPage();
+
+    if(page === "tickets")
+        ticketsPage();
+
+    if(page === "history")
+        historyPage();
+
+    if(page === "settings")
+        settingsPage();
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function dashboard() {
+
+    if(currentUser.role === "admin") {
+
+        const sold =
+            tickets.filter(
+                t => t.userId !== null
+            ).length;
+
+
+        document.getElementById("main").innerHTML = `
+
+            <h1 class="title">
+                Admin Dashboard
+            </h1>
+
+
+            <div class="stats">
+
+                <div class="stat">
+                    <small>
+                        Registered Users
+                    </small>
+
+                    <h2>
+                        ${
+                            users.filter(
+                                u => u.role === "user"
+                            ).length
+                        }
+                    </h2>
+                </div>
+
+
+                <div class="stat">
+
+                    <small>
+                        Sold Tickets
+                    </small>
+
+                    <h2>
+                        ${sold}/12
+                    </h2>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <small>
+                        Winners Per Round
+                    </small>
+
+                    <h2>
+                        ${settings.winners}
+                    </h2>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <small>
+                        Round Duration
+                    </small>
+
+                    <h2>
+                        ${settings.duration}s
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>
+                    Admin Actions
+                </h2>
+
+                <br>
+
+                <button
+                    class="main-button"
+                    onclick="openPage('tickets')">
+
+                    🎟️ Assign Tickets
+
+                </button>
+
+                <br><br>
+
+                <button
+                    class="main-button"
+                    onclick="openPage('wheel')">
+
+                    🎡 Open Wheel
+
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* USER DASHBOARD */
+
+    refreshCurrentUser();
+
+
+    const mine =
+        tickets.filter(
+            t =>
+                Number(t.userId) ===
+                Number(currentUser.id)
+        );
+
+
+    document.getElementById("main").innerHTML = `
+
+        <h1 class="title">
+            User Dashboard
+        </h1>
+
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <small>
+                    My Balance
+                </small>
+
+                <h2>
+                    ${money(currentUser.balance)}
+                </h2>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>
+                    My Tickets
+                </small>
+
+                <h2>
+                    ${mine.length}
+                </h2>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>
+                    Ticket Price
+                </small>
+
+                <h2>
+                    ${money(settings.ticketPrice)}
+                </h2>
+
+            </div>
+
+
+            <div class="stat">
+
+                <small>
+                    Winners
+                </small>
+
+                <h2>
+                    ${settings.winners}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                🎟️ My Tickets
+            </h2>
+
+            <br>
+
+            ${
+                mine.length
+                ?
+                mine.map(
+                    t =>
+                    `
+                    <button
+                        class="small-button gold-button">
+                        Ticket #${t.number}
+                    </button>
+                    `
+                ).join(" ")
+                :
+                `
+                <p class="muted">
+                    No tickets assigned yet.
+                </p>
+                `
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   USERS
+===================================================== */
+
+function usersPage() {
+
+    const normalUsers =
+        users.filter(
+            u => u.role === "user"
+        );
+
+
+    document.getElementById("main").innerHTML = `
+
+        <h1 class="title">
+            👥 Registered Users
+        </h1>
+
+
+        <div class="card">
+
+            <h2>
+                User List
+            </h2>
+
+            <br>
+
+            <div class="table-box">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Balance
+                            </th>
+
+                            <th>
+                                Tickets
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            normalUsers.map(
+                                user => `
+
+                                <tr>
+
+                                    <td>
+                                        ${escapeHTML(user.name)}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHTML(user.phone)}
+                                    </td>
+
+                                    <td class="gold">
+                                        ${money(user.balance)}
+                                    </td>
+
+                                    <td>
+                                        ${userTickets(user.id)}
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="
+                                            small-button
+                                            gold-button
+                                            "
+                                            onclick="
+                                            adjustBalance(
+                                                ${user.id}
+                                            )
+                                            ">
+
+                                            Balance
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                                `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   TICKET ASSIGNMENT
+===================================================== */
+
+function ticketsPage() {
+
+    selectedTickets = [];
+
+
+    document.getElementById("main").innerHTML = `
+
+        <h1 class="title">
+            🎟️ Assign Tickets
+        </h1>
+
+
+        <div class="card">
+
+            <h2>
+                Assign Ticket To User
+            </h2>
+
+            <p class="muted"
+               style="margin-top:8px">
+
+                Enter the user's name and phone.
+                If the user does not exist, you can
+                create the account here.
+
+            </p>
+
+            <br>
+
+
+            <div class="form-grid">
+
+                <div>
+
+                    <label>
+                        User Name
+                    </label>
+
+                    <input
+                        id="assignName"
+                        placeholder="Enter full name"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        id="assignPhone"
+                        placeholder="Enter phone number"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        id="assignPassword"
+                        type="password"
+                        placeholder="For new user only"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Balance Adjustment
+                    </label>
+
+                    <input
+                        id="assignBalance"
+                        type="number"
+                        value="0"
+                        placeholder="Example: 500"
+                    >
+
+                </div>
+
+
+                <div class="full">
+
+                    <label>
+                        Select Ticket Numbers
+                    </label>
+
+                    <div
+                        id="ticketSelector"
+                        class="ticket-selector">
+
+                        ${ticketButtons()}
+
+                    </div>
+
+                </div>
+
+
+                <div class="full">
+
+                    <button
+                        class="main-button"
+                        onclick="assignTickets()">
+
+                        🎟️ ASSIGN TICKET(S)
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                Current Ticket Status
+            </h2>
+
+            <br>
+
+            <div class="ticket-grid">
+
+                ${ticketStatus()}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   TICKET BUTTONS
+===================================================== */
+
+function ticketButtons() {
+
+    return tickets.map(
+        ticket => {
+
+            const sold =
+                ticket.userId !== null;
+
+
+            return `
+
+                <button
+                    type="button"
+                    class="ticket-select ${
+                        sold ? "sold" : ""
+                    }"
+                    ${
+                        sold
+                        ? "disabled"
+                        : ""
+                    }
+                    onclick="
+                    selectTicket(
+                        ${ticket.number},
+                        this
+                    )
+                    ">
+
+                    #${ticket.number}
+
+                    <br>
+
+                    <small>
+                        ${
+                            sold
+                            ? "SOLD"
+                            : "AVAILABLE"
+                        }
+                    </small>
+
+                </button>
+
+            `;
+
+        }
+    ).join("");
+
+}
+
+
+/* =====================================================
+   SELECT TICKET
+===================================================== */
+
+function selectTicket(number, element) {
+
+    if(
+        selectedTickets.includes(number)
+    ) {
+
+        selectedTickets =
+            selectedTickets.filter(
+                n => n !== number
+            );
+
+        element.classList.remove(
+            "selected"
+        );
+
+    } else {
+
+        selectedTickets.push(number);
+
+        element.classList.add(
+            "selected"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ASSIGN TICKETS
+===================================================== */
+
+function assignTickets() {
+
+    if(
+        currentUser.role !== "admin"
+    ) {
+
+        alert(
+            "Only admin can assign tickets."
+        );
+
+        return;
+    }
+
+
+    const name =
+        document
+            .getElementById("assignName")
+            .value
+            .trim();
+
+
+    const phone =
+        document
+            .getElementById("assignPhone")
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById("assignPassword")
+            .value;
+
+
+    const balance =
+        Number(
+            document
+                .getElementById("assignBalance")
+                .value
+        ) || 0;
+
+
+    /* VALIDATION */
+
+    if(!name) {
+
+        alert(
+            "Please enter the user's name."
+        );
+
+        return;
+    }
+
+
+    if(!phone) {
+
+        alert(
+            "Please enter the user's phone number."
+        );
+
+        return;
+    }
+
+
+    if(
+        selectedTickets.length === 0
+    ) {
+
+        alert(
+            "Please select at least one available ticket."
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       FIND USER BY PHONE
+    ================================================= */
+
+    let user =
+        users.find(
+            u =>
+                u.role === "user" &&
+                u.phone === phone
+        );
+
+
+    /* =================================================
+       USER DOES NOT EXIST
+    ================================================= */
+
+    if(!user) {
+
+        /*
+           Admin can register user during
+           ticket assignment.
+        */
+
+        if(!password) {
+
+            alert(
+                "This phone is not registered.\n\n" +
+                "Enter a password to create the user account."
+            );
+
+            return;
+        }
+
+
+        user = {
+
+            id: Date.now(),
+
+            name: name,
+
+            phone: phone,
+
+            password: password,
+
+            balance: Math.max(
+                0,
+                balance
+            ),
+
+            role: "user"
+
+        };
+
+
+        users.push(user);
+
+
+        saveUsers();
+
+
+        alert(
+            "New user registered automatically.\n\n" +
+            "Name: " + name +
+            "\nPhone: " + phone
+        );
+
+    }
+
+    else {
+
+        /*
+           Existing user:
+           update name if admin entered a new name.
+        */
+
+        user.name = name;
+
+
+        /*
+           Add/subtract balance.
+
+           Example:
+           500  = add 500
+           -100 = remove 100
+        */
+
+        if(
+            user.balance + balance < 0
+        ) {
+
+            alert(
+                "User balance cannot become negative."
+            );
+
+            return;
+        }
+
+
+        user.balance =
+            Number(user.balance) +
+            balance;
+
+
+        saveUsers();
+
+    }
+
+
+    /* =================================================
+       CHECK SELECTED TICKETS
+    ================================================= */
+
+    for(
+        const number of selectedTickets
+    ) {
+
+        const ticket =
+            tickets.find(
+                t =>
+                    t.number === number
+            );
+
+
+        if(
+            !ticket ||
+            ticket.userId !== null
+        ) {
+
+            alert(
+                "Ticket #" +
+                number +
+                " is already sold."
+            );
+
+            return;
+        }
+
+    }
+
+
+    /* =================================================
+       ASSIGN TICKETS
+    ================================================= */
+
+    selectedTickets.forEach(
+        number => {
+
+            const ticket =
+                tickets.find(
+                    t =>
+                        t.number === number
+                );
+
+
+            ticket.userId =
+                user.id;
+
+            ticket.userName =
+                user.name;
+
+            ticket.phone =
+                user.phone;
+
+            ticket.soldDate =
+                new Date().toISOString();
+
+        }
+    );
+
+
+    saveUsers();
+
+    saveTickets();
+
+
+    alert(
+        "SUCCESS!\n\n" +
+
+        "User: " +
+        user.name +
+
+        "\nPhone: " +
+        user.phone +
+
+        "\nBalance: " +
+        money(user.balance) +
+
+        "\nTickets: " +
+        selectedTickets
+            .map(n => "#" + n)
+            .join(", ")
+    );
+
+
+    ticketsPage();
+
+}
+
+
+/* =====================================================
+   TICKET STATUS
+===================================================== */
+
+function ticketStatus() {
+
+    return tickets.map(
+        ticket => {
+
+            const sold =
+                ticket.userId !== null;
+
+
+            return `
+
+                <div
+                    class="ticket ${
+                        sold ? "sold" : ""
+                    }">
+
+                    <div class="ticket-number">
+                        #${ticket.number}
+                    </div>
+
+
+                    ${
+                        sold
+
+                        ?
+
+                        `
+
+                        <p class="sold-text">
+                            SOLD
+                        </p>
+
+                        <br>
+
+                        <p>
+                            ${escapeHTML(
+                                ticket.userName
+                            )}
+                        </p>
+
+                        <p>
+                            ${escapeHTML(
+                                ticket.phone
+                            )}
+                        </p>
+
+                        `
+
+                        :
+
+                        `
+
+                        <p class="available">
+                            AVAILABLE
+                        </p>
+
+                        `
+                    }
+
+                </div>
+
+            `;
+
+        }
+    ).join("");
+
+}
+
+
+/* =====================================================
+   WHEEL PAGE
+===================================================== */
+
+function wheelPage() {
+
+    document.getElementById("main").innerHTML = `
+
+        <h1 class="title">
+            🎡 Lucky Wheel
+        </h1>
+
+
+        <div class="card">
+
+            <div class="wheel-layout">
+
+
+                <div class="wheel-container">
+
+                    <div
+                        id="wheel"
+                        class="wheel">
+
+                        ${createSegments()}
+
+                        <div class="center">
+                            SPIN
+                        </div>
+
+                    </div>
+
+                    <div class="pointer"></div>
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        id="timer"
+                        class="timer">
+
+                        ${formatTime(settings.duration)}
+
+                    </div>
+
+
+                    <p
+                        id="status"
+                        class="status">
+
+                        ${
+                            currentUser.role === "admin"
+                            ?
+                            "Ready to start a round."
+                            :
+                            "Waiting for admin to start."
+                        }
+
+                    </p>
+
+
+                    ${
+                        currentUser.role === "admin"
+
+                        ?
+
+                        `
+
+                        <button
+                            id="spinButton"
+                            class="main-button"
+                            onclick="startSpin()">
+
+                            🎡 START WHEEL
+
+                        </button>
+
+                        <br><br>
+
+                        <button
+                            class="
+                            main-button
+                            red-button
+                            "
+                            onclick="refreshTickets()">
+
+                            🔄 REFRESH TICKETS
+                            / NEW ROUND
+
+                        </button>
+
+                        `
+
+                        :
+
+                        `
+
+                        <div class="card">
+
+                            <h3>
+                                My Tickets
+                            </h3>
+
+                            <br>
+
+                            ${myTicketList()}
+
+                        </div>
+
+                        `
+                    }
+
+
+                    <div id="winnerArea"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   CREATE WHEEL
+===================================================== */
+
+function createSegments() {
+
+    let html = "";
+
+
+    for(
+        let i = 1;
+        i <= 12;
+        i++
+    ) {
+
+        html += `
+
+            <div
+                class="segment"
+                style="
+                    transform:
+                    rotate(${(i-1)*30}deg);
+                    background:
+                    hsl(${i*30},70%,45%);
+                ">
+
+                <span>
+                    ${i}
+                </span>
+
+            </div>
+
+        `;
+
+    }
+
+
+    return html;
+
+}
+
+
+/* =====================================================
+   START WHEEL
+===================================================== */
+
+function startSpin() {
+
+    if(spinning)
+        return;
+
+
+    const soldTickets =
+        tickets.filter(
+            t =>
+                t.userId !== null
+        );
+
+
+    if(
+        soldTickets.length === 0
+    ) {
+
+        alert(
+            "No tickets have been assigned."
+        );
+
+        return;
+    }
+
+
+    spinning = true;
+
+
+    const wheel =
+        document.getElementById("wheel");
+
+    const timer =
+        document.getElementById("timer");
+
+    const status =
+        document.getElementById("status");
+
+    const button =
+        document.getElementById("spinButton");
+
+
+    button.disabled = true;
+
+
+    wheel.style.transition =
+        "none";
+
+    wheel.style.transform =
+        "rotate(0deg)";
+
+
+    /*
+       FAST ROTATION.
+
+       10800 degrees =
+       30 complete rotations.
+    */
+
+    setTimeout(() => {
+
+        wheel.style.transition =
+            `
+            transform
+            ${settings.duration}s
+            cubic-bezier(.12,.72,.18,1)
+            `;
+
+        wheel.style.transform =
+            `rotate(10800deg)`;
+
+    },50);
+
+
+    let remaining =
+        settings.duration;
+
+
+    timer.textContent =
+        formatTime(remaining);
+
+
+    status.textContent =
+        "🎡 Wheel spinning fast...";
+
+
+    const interval =
+        setInterval(() => {
+
+            remaining--;
+
+            timer.textContent =
+                formatTime(remaining);
+
+
+            if(
+                remaining <= 0
+            ) {
+
+                clearInterval(
+                    interval
+                );
+
+                finishRound(
+                    soldTickets
+                );
+
+            }
+
+        },1000);
+
+}
+
+
+/* =====================================================
+   FINISH ROUND
+===================================================== */
+
+function finishRound(
+    soldTickets
+) {
+
+    /*
+       Shuffle sold tickets.
+    */
+
+    const shuffled =
+        [...soldTickets];
+
+
+    shuffle(shuffled);
+
+
+    /*
+       Number of winners can be
+       changed by admin.
+    */
+
+    const winnerCount =
+        Math.min(
+            settings.winners,
+            shuffled.length
+        );
+
+
+    const winningTickets =
+        shuffled.slice(
+            0,
+            winnerCount
+        );
+
+
+    const winners = [];
+
+
+    winningTickets.forEach(
+        (ticket,index) => {
+
+            const user =
+                users.find(
+                    u =>
+                        Number(u.id) ===
+                        Number(ticket.userId)
+                );
+
+
+            if(!user)
+                return;
+
+
+            /*
+               Add prize to user's balance.
+            */
+
+            user.balance =
+                Number(user.balance) +
+                Number(settings.prize);
+
+
+            winners.push({
+
+                place: index + 1,
+
+                ticket: ticket.number,
+
+                userId: user.id,
+
+                name: user.name,
+
+                phone: user.phone,
+
+                prize: settings.prize
+
+            });
+
+        }
+    );
+
+
+    /*
+       SAVE COMPLETED ROUND.
+
+       Tickets are NOT deleted here.
+    */
+
+    rounds.unshift({
+
+        id: Date.now(),
+
+        date:
+            new Date().toISOString(),
+
+        winners: winners,
+
+        soldTickets:
+            soldTickets.map(
+                ticket => ({
+
+                    number:
+                        ticket.number,
+
+                    userId:
+                        ticket.userId,
+
+                    name:
+                        ticket.userName,
+
+                    phone:
+                        ticket.phone
+
+                })
+            )
+
+    });
+
+
+    saveUsers();
+
+    saveRounds();
+
+
+    spinning = false;
+
+
+    document
+        .getElementById("timer")
+        .textContent = "00:00";
+
+
+    document
+        .getElementById("status")
+        .textContent =
+        "Round completed. Admin can refresh tickets.";
+
+
+    showWinners(winners);
+
+
+    document
+        .getElementById("spinButton")
+        .disabled = false;
+
+}
+
+
+/* =====================================================
+   SHOW WINNERS
+===================================================== */
+
+function showWinners(winners) {
+
+    const area =
+        document.getElementById(
+            "winnerArea"
+        );
+
+
+    if(!area)
+        return;
+
+
+    area.innerHTML = `
+
+        <div class="winners">
+
+            <h2>
+                🏆 WINNERS
+            </h2>
+
+
+            ${
+                winners.map(
+                    winner => `
+
+                    <div class="winner">
+
+                        <b>
+                            Winner ${winner.place}
+                        </b>
+
+                        <br><br>
+
+                        Name:
+                        ${escapeHTML(
+                            winner.name
+                        )}
+
+                        <br>
+
+                        Phone:
+                        ${escapeHTML(
+                            winner.phone
+                        )}
+
+                        <br>
+
+                        Ticket:
+                        #${winner.ticket}
+
+                        <br>
+
+                        Prize:
+                        <span class="gold">
+                            ${money(
+                                winner.prize
+                            )}
+                        </span>
+
+                    </div>
+
+                    `
+                ).join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   REFRESH TICKETS
+===================================================== */
+
+function refreshTickets() {
+
+    if(
+        currentUser.role !== "admin"
+    ) {
+
+        alert(
+            "Only admin can refresh tickets."
+        );
+
+        return;
+    }
+
+
+    if(spinning) {
+
+        alert(
+            "Wait until the wheel finishes."
+        );
+
+        return;
+    }
+
+
+    const soldCount =
+        tickets.filter(
+            t =>
+                t.userId !== null
+        ).length;
+
+
+    if(soldCount === 0) {
+
+        alert(
+            "No tickets are currently sold."
+        );
+
+        return;
+    }
+
+
+    const confirmNewRound =
+        confirm(
+            "Start a new round?\n\n" +
+
+            "The previous round will remain in History.\n\n" +
+
+            "All 12 tickets will become AVAILABLE.\n\n" +
+
+            "Users and balances will remain saved."
+        );
+
+
+    if(!confirmNewRound)
+        return;
+
+
+    /*
+       RESET TICKETS ONLY.
+
+       USERS ARE NOT DELETED.
+       BALANCES ARE NOT DELETED.
+       HISTORY IS NOT DELETED.
+    */
+
+    tickets =
+        tickets.map(
+            ticket => ({
+
+                number:
+                    ticket.number,
+
+                userId:
+                    null,
+
+                userName:
+                    null,
+
+                phone:
+                    null,
+
+                soldDate:
+                    null
+
+            })
+        );
+
+
+    saveTickets();
+
+
+    alert(
+        "New round created!\n\n" +
+        "All 12 tickets are now AVAILABLE."
+    );
+
+
+    wheelPage();
+
+}
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+function historyPage() {
+
+    document.getElementById("main").innerHTML = `
+
+        <h1 class="title">
+            📜 Round History
+        </h1>
+
+
+        ${
+            rounds.length === 0
+
+            ?
+
+            `
+
+            <div class="card">
+
+                <p class="muted">
+                    No completed rounds yet.
+                </p>
+
+            </div>
+
+            `
+
+            :
+
+            rounds.map(
+                round => `
+
+                <div class="history">
+
+                    <h3>
+                        Round #${round.id}
+                    </h3>
+
+                    <p class="muted">
+                        ${formatDate(
+                            round.date
+                        )}
+                    </p>
+
+                    <br>
+
+                    <strong>
+                        Sold Tickets:
+                    </strong>
+
+                    <br><br>
+
+                    <p>
+                        ${
+                            round.soldTickets
+                                .map(
+                                    t =>
+                                    `#${t.number}`
+                                )
+                                .join(", ")
+                        }
+                    </p>
+
+                    <br>
+
+                    <strong>
+                        Winners:
+                    </strong>
+
+                    <br><br>
+
+                    ${
+                        round.winners.map(
+                            winner => `
+
+                            <div class="winner">
+
+                                🏆 Winner
+                                ${winner.place}
+
+                                -
+
+                                ${escapeHTML(
+                                    winner.name
+                                )}
+
+                                -
+
+                                Ticket
+                                #${winner.ticket}
+
+                                -
+
+                                <span class="gold">
+                                    ${money(
+                                        winner.prize
+                                    )}
+                                </span>
+
+                            </div>
+
+                            `
+                        ).join("")
+                    }
+
+                </div>
+
+                `
+            ).join("")
+        }
+
+    `;
+
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+function settingsPage() {
+
+    document.getElementById("main").innerHTML = `
+
+        <h1 class="title">
+            ⚙️ Wheel Settings
+        </h1>
+
+
+        <div class="card">
+
+            <h2>
+                Wheel Configuration
+            </h2>
+
+            <br>
+
+            <label>
+                Wheel Numbers
+            </label>
+
+            <input
+                value="1 - 12"
+                disabled
+            >
+
+
+            <label>
+                Duration / Seconds
+            </label>
+
+            <input
+                id="duration"
+                type="number"
+                min="10"
+                value="${settings.duration}"
+            >
+
+
+            <label>
+                Number Of Winners
+            </label>
+
+            <input
+                id="winnerCount"
+                type="number"
+                min="1"
+                max="12"
+                value="${settings.winners}"
+            >
+
+
+            <label>
+                Prize Per Winner
+            </label>
+
+            <input
+                id="prize"
+                type="number"
+                min="0"
+                value="${settings.prize}"
+            >
+
+
+            <label>
+                Ticket Price
+            </label>
+
+            <input
+                id="ticketPrice"
+                type="number"
+                min="0"
+                value="${settings.ticketPrice}"
+            >
+
+
+            <button
+                class="main-button"
+                onclick="saveSettingsPage()">
+
+                Save Settings
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+function saveSettingsPage() {
+
+    settings.duration =
+        Math.max(
+            10,
+            Number(
+                document
+                    .getElementById(
+                        "duration"
+                    ).value
+            )
+        );
+
+
+    settings.winners =
+        Math.min(
+            12,
+            Math.max(
+                1,
+                Number(
+                    document
+                        .getElementById(
+                            "winnerCount"
+                        ).value
+                )
+            )
+        );
+
+
+    settings.prize =
+        Math.max(
+            0,
+            Number(
+                document
+                    .getElementById(
+                        "prize"
+                    ).value
+            )
+        );
+
+
+    settings.ticketPrice =
+        Math.max(
+            0,
+            Number(
+                document
+                    .getElementById(
+                        "ticketPrice"
+                    ).value
+            )
+        );
+
+
+    saveSettings();
+
+
+    alert(
+        "Settings saved."
+    );
+
+}
+
+
+/* =====================================================
+   USER TICKETS
+===================================================== */
+
+function userTickets(id) {
+
+    return tickets
+        .filter(
+            ticket =>
+                Number(ticket.userId) ===
+                Number(id)
+        )
+        .map(
+            ticket =>
+                "#" + ticket.number
+        )
+        .join(", ") || "-";
+
+}
+
+
+function myTicketList() {
+
+    const mine =
+        tickets.filter(
+            t =>
+                Number(t.userId) ===
+                Number(currentUser.id)
+        );
+
+
+    if(!mine.length) {
+
+        return `
+            <p class="muted">
+                No tickets assigned.
+            </p>
+        `;
+
+    }
+
+
+    return mine.map(
+        ticket =>
+        `
+        <button
+            class="small-button gold-button">
+
+            Ticket #${ticket.number}
+
+        </button>
+        `
+    ).join(" ");
+
+}
+
+
+/* =====================================================
+   BALANCE ADJUSTMENT
+===================================================== */
+
+function adjustBalance(id) {
+
+    const user =
+        users.find(
+            u =>
+                Number(u.id) ===
+                Number(id)
+        );
+
+
+    if(!user)
+        return;
+
+
+    const amount =
+        Number(
+            prompt(
+                "Current balance: " +
+                money(user.balance) +
+                "\n\n" +
+                "Enter amount to ADD.\n" +
+                "Use - to subtract."
+            )
+        );
+
+
+    if(
+        !Number.isFinite(amount)
+    )
+        return;
+
+
+    if(
+        user.balance + amount < 0
+    ) {
+
+        alert(
+            "Balance cannot be negative."
+        );
+
+        return;
+    }
+
+
+    user.balance =
+        Number(user.balance) +
+        amount;
+
+
+    saveUsers();
+
+
+    usersPage();
+
+}
+
+
+/* =====================================================
+   REFRESH CURRENT USER
+===================================================== */
+
+function refreshCurrentUser() {
+
+    if(
+        !currentUser ||
+        currentUser.role === "admin"
+    )
+        return;
+
+
+    const updated =
+        users.find(
+            u =>
+                Number(u.id) ===
+                Number(currentUser.id)
+        );
+
+
+    if(updated) {
+
+        currentUser =
+            updated;
+
+        localStorage.setItem(
+            CURRENT_KEY,
+            JSON.stringify(
+                currentUser
+            )
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    currentUser = null;
+
+    localStorage.removeItem(
+        CURRENT_KEY
+    );
+
+
+    document
+        .getElementById("app")
+        .classList.add("hidden");
+
+    document
+        .getElementById("loginPage")
+        .classList.remove("hidden");
+
+}
+
+
+/* =====================================================
+   UTILITIES
+===================================================== */
+
+function shuffle(array) {
+
+    for(
+        let i = array.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+
+        [
+            array[i],
+            array[j]
+        ] =
+        [
+            array[j],
+            array[i]
+        ];
+
+    }
+
+}
+
+
+function money(value) {
+
+    return Number(
+        value || 0
+    ).toLocaleString() +
+    " ETB";
+
+}
+
+
+function formatTime(seconds) {
+
+    seconds =
+        Math.max(
+            0,
+            Number(seconds)
+        );
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const secondsLeft =
+        seconds % 60;
+
+
+    return (
+        String(minutes)
+            .padStart(2,"0")
+        +
+        ":"
+        +
+        String(secondsLeft)
+            .padStart(2,"0")
+    );
+
+}
+
+
+function formatDate(date) {
+
+    return new Date(date)
+        .toLocaleString();
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   AUTO LOGIN
+===================================================== */
+
+if(currentUser) {
+
+    showApp();
+
+}
+
+</script>
+
+</body>
+</html>
+```
